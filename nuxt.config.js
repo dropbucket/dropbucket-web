@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+// import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -24,6 +24,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~plugins/modules',
+    '~plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,21 +43,31 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/firebase',
-    {
-      config: {
-        apiKey: 'AIzaSyB0jtreaWoNf3KqrMOxKc8sC7JBkw98cG4',
-        authDomain: 'dropbucket-626ba.firebaseapp.com',
-        projectId: 'dropbucket-626ba',
-        storageBucket: 'dropbucket-626ba.appspot.com',
-        messagingSenderId: '720947416931',
-        appId: '1:720947416931:web:0430ee9222d768e6400d56',
-        measurementId: 'G-4LC1FVP79N'
-      },
-      services: {
-        auth: true // Just as example. Can be any other service.
-      }
-    }
+    ['@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: 'AIzaSyB0jtreaWoNf3KqrMOxKc8sC7JBkw98cG4',
+          authDomain: 'dropbucket-626ba.firebaseapp.com',
+          projectId: 'dropbucket-626ba',
+          storageBucket: 'dropbucket-626ba.appspot.com',
+          messagingSenderId: '720947416931',
+          appId: '1:720947416931:web:0430ee9222d768e6400d56',
+          measurementId: 'G-4LC1FVP79N'
+        },
+        services: {
+          auth: {
+            initialize: {
+              onAuthStateChangedAction: 'onAuthStateChanged'
+            },
+
+            ssr: {
+              // Set 'credential' as described above.
+
+              serverLogin: true
+            }
+          }
+        }
+      }]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -65,17 +77,9 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
+
       }
     }
   },
